@@ -5,5 +5,13 @@
   --foreground: #171717;
 }
 
-body {
+input,
+textarea,
+select {
+  @apply border border-[#00296b] rounded-sm w-full mb-2 p-1 outline-none focus-visible:border-[#00296b];
+  @apply shadow-sm;
+}
+
+button {
+  cursor: pointer;
 }

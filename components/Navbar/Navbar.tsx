@@ -4,8 +4,11 @@ import { useContext } from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { CartContext } from "@/providers/CartContext/CartContext";
 import Link from "next/link";
+import { SignIn, SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 
 const Navbar: React.FC = () => {
+  const { isSignedIn } = useAuth();
+
   const cartContext = useContext(CartContext);
 
   if (!cartContext) {
@@ -24,6 +27,19 @@ const Navbar: React.FC = () => {
           <ShoppingCartOutlinedIcon fontSize="large" />
         </div>
       </Link>
+
+      {isSignedIn ? (
+        <UserButton />
+      ) : (
+        <SignInButton>
+          <button
+            className="bg-[#00296b] px-3 py-1 mt-2 rounded-md text-white
+               disabled:bg-slate-300 disabled:cursor-not-allowed"
+          >
+            Sign in
+          </button>
+        </SignInButton>
+      )}
     </div>
   );
 };

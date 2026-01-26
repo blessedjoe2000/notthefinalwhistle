@@ -1,19 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { Divider } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
 import { useCart } from "@/providers/CartContext/CartContext";
 import type { CartBook } from "@/providers/CartContext/CartContext";
+import toast from "react-hot-toast";
+import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 
-/**
- * Cart-specific product shape
- */
 interface CartPageBook extends CartBook {
   _id: string;
   title: string;
@@ -23,12 +21,12 @@ interface CartPageBook extends CartBook {
 }
 
 export default function Cart() {
-  //   const cartContext = useContext(CartContext);
-  //   if (!cartContext) {
-  //     throw new Error("Cart must be used within CartContextProvider");
-  //   }
+  const { isSignedIn } = useAuth();
 
   const { cartBooks, reduceBook, clearCart, addBook } = useCart();
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
 
   const isCartEmpty = cartBooks.length === 0;
 
@@ -60,8 +58,6 @@ export default function Cart() {
     return Array.from(map.values());
   }, [cartBooks]);
 
-  console.log("groupedCartBooks :>> ", groupedCartBooks);
-
   // Total price calculation
   const total = useMemo(() => {
     return groupedCartBooks.reduce((sum, book) => {
@@ -70,13 +66,56 @@ export default function Cart() {
     }, 0);
   }, [groupedCartBooks]);
 
-  /**
-   * Checkout handler
-   */
+  const isFormComplete = Boolean(name.trim() && email.trim() && phone.trim());
+
+  //Checkout handler
   const handleGoToPayment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!name) {
+      return toast.error("Name is required. Please enter name", {
+        style: {
+          border: "1px solid #00296b",
+          padding: "16px",
+          color: "#00296b",
+        },
+        iconTheme: {
+          primary: "#00296b",
+          secondary: "#faf0ca",
+        },
+      });
+    }
+    if (!email) {
+      return toast.error("Email is required. Please enter email", {
+        style: {
+          border: "1px solid #00296b",
+          padding: "16px",
+          color: "#00296b",
+        },
+        iconTheme: {
+          primary: "#00296b",
+          secondary: "#faf0ca",
+        },
+      });
+    }
+    if (!phone) {
+      return toast.error("Mobile no is required. Please enter mobile", {
+        style: {
+          border: "1px solid #00296b",
+          padding: "16px",
+          color: "#00296b",
+        },
+        iconTheme: {
+          primary: "#00296b",
+          secondary: "#faf0ca",
+        },
+      });
+    }
+
     const response = await axios.post<{ url?: string }>("/api/checkout", {
+      name,
+      email,
+      phone,
       cartBooks,
     });
 
@@ -109,7 +148,9 @@ export default function Cart() {
    */
   return (
     <div className="m-5">
-      <div className="text-lg font-bold mb-2">Shopping Cart</div>
+      <div className="text-2xl font-bold mb-5 text-[#00296b] text-center">
+        Your Shopping Cart
+      </div>
 
       {isCartEmpty ? (
         <div>Your Cart is empty</div>
@@ -123,8 +164,8 @@ export default function Cart() {
                     <Image
                       src={book?.imageUrl}
                       alt={book?.title}
-                      width={150}
-                      height={200}
+                      width={120}
+                      height={150}
                       className="object-cover rounded-md"
                     />
                     <div>
@@ -167,21 +208,67 @@ export default function Cart() {
           </div>
 
           {/* Order summary */}
-          <div className="p-5 rounded-md bg-dark-blue">
-            <h2 className="font-bold text-lg text-light-green">
+          <div className="p-5 rounded-md bg-dark-blue text-[#00296b]">
+            <p className="font-bold text-lg text-light-green">
               Order information
-            </h2>
+            </p>
 
             <form onSubmit={handleGoToPayment}>
+              <div>
+                <label htmlFor="name">
+                  Name:<span className="text-[#e71d36]">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="email">
+                  Email:<span className="text-[#e71d36]">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="phone">
+                  Phone Number:<span className="text-[#e71d36]">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Phone number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </div>
+
+              <div>
+                {!isSignedIn && (
+                  <p className="text-sm pt-2 text-[#e71d36]">
+                    *login to continue*
+                  </p>
+                )}
+              </div>
               <button
                 type="submit"
-                className="mt-2 px-3 py-1 rounded-md text-white disabled:bg-slate-300"
-                disabled
+                disabled={!isSignedIn}
+                className="
+    bg-[#00296b] px-3 py-1 mt-2 rounded-md text-white text-center
+    disabled:bg-slate-300
+    disabled:cursor-not-allowed
+  "
               >
                 Continue to payment
               </button>
-
-              <p className="text-sm  pt-1">*login to continue*</p>
             </form>
           </div>
         </div>
