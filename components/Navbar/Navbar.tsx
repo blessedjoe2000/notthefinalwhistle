@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { CartContext } from "@/providers/CartContext/CartContext";
+import Link from "next/link";
 
 const Navbar: React.FC = () => {
   const cartContext = useContext(CartContext);
@@ -15,12 +16,14 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="py-5">
-      <div className="relative">
-        <div className="absolute font-bold text-lg bottom-5 left-3">
-          <span className="">{cartBooks.length}</span>
+      <Link href="/cart">
+        <div className="relative">
+          <div className="absolute font-bold text-lg bottom-5 left-3">
+            <span className="">{cartBooks.length}</span>
+          </div>
+          <ShoppingCartOutlinedIcon fontSize="large" />
         </div>
-        <ShoppingCartOutlinedIcon fontSize="large" />
-      </div>
+      </Link>
     </div>
   );
 };

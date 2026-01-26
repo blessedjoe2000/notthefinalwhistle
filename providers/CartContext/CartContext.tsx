@@ -61,8 +61,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     setCartBooks((prev) => [...prev, book]);
 
     toast.success("Book added to cart", {
-      style: { padding: "16px", color: "#01579b" },
-      iconTheme: { primary: "#01579b", secondary: "#FFFAEE" },
+      style: { padding: "16px", color: "#00296b" },
+      iconTheme: { primary: "#00296b", secondary: "#faf0ca" },
     });
   };
 
@@ -73,8 +73,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     });
 
     toast.success("Book removed from cart", {
-      style: { padding: "16px", color: "#01579b" },
-      iconTheme: { primary: "#01579b", secondary: "#FFFAEE" },
+      style: { padding: "16px", color: "#00296b" },
+      iconTheme: { primary: "#00296b", secondary: "#faf0ca" },
     });
   };
 

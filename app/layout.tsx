@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { CartContextProvider } from "@/providers/CartContext/CartContext";
 import Navbar from "@/components/Navbar/Navbar";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <CartContextProvider>
         <body className="">
+          <Toaster position="top-right" />
           <Navbar />
           {children}
         </body>

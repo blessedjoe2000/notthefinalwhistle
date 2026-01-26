@@ -37,7 +37,7 @@ const Book: React.FC = () => {
 
   const addToCart = (book: Book) => {
     addBook({
-      id: book._id,
+      _id: book._id,
       title: book.title,
       imageUrl: book.imageUrl,
       price: book.newPrice ? Number(book.newPrice) : book.price,
