@@ -26,10 +26,11 @@ export async function GET(_req: NextRequest): Promise<Response> {
 export async function POST(req: NextRequest): Promise<Response> {
   await mongooseConnect();
 
-  const { imageUrl, price, newPrice } = await req.json();
+  const { title, imageUrl, price, newPrice } = await req.json();
 
   try {
     const newBook: BookDocument[] = await BookModel.create({
+      title,
       imageUrl,
       price,
       newPrice,
