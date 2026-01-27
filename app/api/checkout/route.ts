@@ -90,11 +90,11 @@ export async function POST(req: Request): Promise<Response> {
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            fixed_amount: { amount: 1999, currency: "usd" },
+            fixed_amount: { amount: 499, currency: "usd" },
             display_name: "Standard",
             delivery_estimate: {
-              minimum: { unit: "business_day", value: 5 },
-              maximum: { unit: "business_day", value: 7 },
+              minimum: { unit: "business_day", value: 3 },
+              maximum: { unit: "business_day", value: 5 },
             },
           },
         },

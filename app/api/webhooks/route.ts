@@ -34,18 +34,11 @@ export async function POST(req: Request): Promise<Response> {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      console.log("session :>> ", session);
-
-      const {
-        payment_status,
-        metadata,
-        customer_details,
-        shipping_details,
-        amount_total,
-      } = session;
+      const { payment_status, metadata, customer_details, amount_total } =
+        session;
 
       const orderId = metadata?.orderId;
-      const address = shipping_details?.address;
+      const address = customer_details?.address;
 
       if (payment_status === "paid" && orderId) {
         await OrderModel.findByIdAndUpdate(
@@ -70,7 +63,7 @@ export async function POST(req: Request): Promise<Response> {
           subject: "🛒 New Purchase Alert",
           html: `
             <h2>New Order Received</h2>
-            <p><strong>Customer:</strong> ${customer_details?.name ?? "N/A"}</p>
+            <p><strong>Customer Name:</strong> ${customer_details?.name ?? "N/A"}</p>
             <p><strong>Email:</strong> ${customer_details?.email ?? "N/A"}</p>
             <p><strong>Address:</strong>
               ${address?.line1 ?? ""} ${address?.city ?? ""} ${
