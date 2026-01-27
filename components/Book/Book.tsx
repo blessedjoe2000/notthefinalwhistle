@@ -52,8 +52,7 @@ const Book: React.FC = () => {
     return (
       <div>
         <Stack spacing={5}>
-          {/* For other variants, adjust the size with `width` and `height` */}
-          <div className="flex flex-wrap gap-5 px-5">
+          <div className="flex flex-wrap gap-5 px-5 justify-center">
             <Skeleton variant="rounded" width={350} height={550} />
             <Skeleton variant="rounded" width={350} height={550} />
             <Skeleton variant="rounded" width={350} height={550} />

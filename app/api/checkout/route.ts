@@ -1,5 +1,7 @@
 export const runtime = "nodejs";
 
+import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import Stripe from "stripe";
 import { mongooseConnect } from "@/lib/connectDb";
 import OrderModel from "@/model/OrderModel";
@@ -25,6 +27,12 @@ export async function POST(req: Request): Promise<Response> {
   await mongooseConnect();
 
   try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { name, email, phone, cartBooks }: CheckoutRequestBody =
       await req.json();
 
@@ -63,7 +71,7 @@ export async function POST(req: Request): Promise<Response> {
       },
       orderProducts: cartBooks.map((cartBook) => ({
         title: cartBook.title,
-        imageUrl: cartBook.imageurl,
+        imageUrl: cartBook?.imageurl,
         price: cartBook.newPrice ?? cartBook.price,
         quantity: 1,
       })),

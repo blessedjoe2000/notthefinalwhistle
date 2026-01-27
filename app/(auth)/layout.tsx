@@ -1,8 +1,14 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
-const AuthLayout = ({ children }) => {
+interface AuthLayoutProps {
+  children: ReactNode;
+}
+
+const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
-    <div className="flex items-center h-full justify-center">{children}</div>
+    <div className="flex items-center min-h-screen justify-center">
+      {children}
+    </div>
   );
 };
 

@@ -21,7 +21,6 @@ export default function RootLayout({
         <CartContextProvider>
           <body className="">
             <Toaster position="top-right" />
-            <Navbar />
             {children}
           </body>
         </CartContextProvider>

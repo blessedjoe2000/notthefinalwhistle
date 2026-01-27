@@ -11,6 +11,7 @@ import { useCart } from "@/providers/CartContext/CartContext";
 import type { CartBook } from "@/providers/CartContext/CartContext";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
+import { Loader2 } from "lucide-react";
 
 interface CartPageBook extends CartBook {
   _id: string;
@@ -27,6 +28,7 @@ export default function Cart() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const isCartEmpty = cartBooks.length === 0;
 
@@ -110,6 +112,7 @@ export default function Cart() {
       });
     }
 
+    setIsLoading(true);
     const response = await axios.post<{ url?: string }>("/api/checkout", {
       name,
       email,
@@ -120,6 +123,7 @@ export default function Cart() {
     if (response.data.url) {
       window.location.href = response.data.url;
     }
+    setIsLoading(false);
   };
 
   //Success screen
@@ -259,11 +263,12 @@ export default function Cart() {
                 type="submit"
                 disabled={!isSignedIn}
                 className="
-   px-3 py-1 mt-2 rounded-md text-white text-center
+   px-3 py-1 mt-2 rounded-md text-white text-center flex items-center gap-1
     disabled:bg-slate-300
     disabled:cursor-not-allowed
   "
               >
+                {isLoading && <Loader2 className=" animate-spin" />}
                 Continue to payment
               </button>
             </form>

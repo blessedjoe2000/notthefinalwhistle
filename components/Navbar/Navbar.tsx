@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
           Shop
         </Link>
       </div>
-      <div className="flex gap-10">
+      <div className="flex gap-10 items-center">
         <Link href="/cart">
           <div className="relative">
             <div className="absolute font-bold text-lg bottom-5 left-3">
@@ -39,14 +39,11 @@ const Navbar: React.FC = () => {
         {isSignedIn ? (
           <UserButton />
         ) : (
-          <SignInButton>
-            <button
-              className="bg-[#00296b] px-3 py-1 mt-2 rounded-md text-white
-               disabled:bg-slate-300 disabled:cursor-not-allowed"
-            >
+          <Link href="/sign-in">
+            <button className="bg-[#faf0ca]! px-3 py-1 mt-2 rounded-md text-[#00296b]! hover:bg-white!">
               Sign in
             </button>
-          </SignInButton>
+          </Link>
         )}
       </div>
     </div>
