@@ -10,7 +10,7 @@ import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
 import { useCart } from "@/providers/CartContext/CartContext";
 import type { CartBook } from "@/providers/CartContext/CartContext";
 import toast from "react-hot-toast";
-import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
 interface CartPageBook extends CartBook {
   _id: string;
@@ -65,8 +65,6 @@ export default function Cart() {
       return sum + price * book.quantity;
     }, 0);
   }, [groupedCartBooks]);
-
-  const isFormComplete = Boolean(name.trim() && email.trim() && phone.trim());
 
   //Checkout handler
   const handleGoToPayment = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -127,25 +125,22 @@ export default function Cart() {
   //Success screen
   if (isSuccess) {
     return (
-      <div className="bg-dark-blue mx-5 text-center py-10 text-white">
+      <div className="bg-dark-blue mx-5 text-center py-10 ">
         <h1 className="font-bold py-2 text-lg">
           Payment Successful! Thank you for shopping with us.
         </h1>
         <p className="mb-5">We will email you when your order is sent.</p>
 
-        <Link
-          href="/"
-          className="bg-dark-green rounded-md inline-flex items-center gap-2 px-3 py-1 hover:text-light-green"
-        >
-          <p className="text-lg">Go to shop</p>
+        <Link href="/">
+          <button className="text-lg px-3 py-1 mt-2 rounded-md text-white text-center">
+            Go to shop
+          </button>
         </Link>
       </div>
     );
   }
 
-  /**
-   * Main cart UI
-   */
+  //Main cart UI
   return (
     <div className="m-5">
       <div className="text-2xl font-bold mb-5 text-[#00296b] text-center">
@@ -181,14 +176,14 @@ export default function Cart() {
 
                       <button
                         onClick={() => addBook(book)}
-                        className="flex items-center mt-2 rounded-md bg-[#00296b] py-1 px-2 text-white"
+                        className="flex items-center mt-2 rounded-md py-1 px-2 text-white"
                       >
                         <AddCircleOutlinedIcon fontSize="small" />
                         Add
                       </button>
                       <button
                         onClick={() => reduceBook(book)}
-                        className="flex items-center mt-2 rounded-md bg-[#00296b] py-1 px-2 text-white"
+                        className="flex items-center mt-2 rounded-md py-1 px-2 text-white"
                       >
                         <DoNotDisturbOnIcon fontSize="small" />
                         Remove
@@ -243,11 +238,13 @@ export default function Cart() {
                   Phone Number:<span className="text-[#e71d36]">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="tel"
                   name="phone"
                   placeholder="Phone number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                 />
               </div>
 
@@ -262,7 +259,7 @@ export default function Cart() {
                 type="submit"
                 disabled={!isSignedIn}
                 className="
-    bg-[#00296b] px-3 py-1 mt-2 rounded-md text-white text-center
+   px-3 py-1 mt-2 rounded-md text-white text-center
     disabled:bg-slate-300
     disabled:cursor-not-allowed
   "
