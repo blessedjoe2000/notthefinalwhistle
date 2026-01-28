@@ -298,7 +298,7 @@ const Order: React.FC = () => {
                   <div className="sm:flex gap-1 flex-col justify-center items-center text-sm mt-1 ">
                     <button
                       onClick={() => handleEdit(order._id, order.status)}
-                      className="px-2 py-1 rounded-sm text-white"
+                      className="px-2 py-1 rounded-sm text-white mr-2 sm:mr-0"
                     >
                       Edit
                     </button>
