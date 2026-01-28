@@ -130,7 +130,7 @@ const Order: React.FC = () => {
     if (!selectedOrderId) return;
 
     setIsSaveLoading(true);
-    await axios.patch(`/api/orders/edit/${selectedOrderId}`, { orderStatus });
+    await axios.patch(`/api/orders/${selectedOrderId}`, { orderStatus });
     setIsSaveLoading(false);
 
     await getOrders();
@@ -169,7 +169,7 @@ const Order: React.FC = () => {
     if (!deleteOrderId) return;
 
     setIsDeleteLoading(true);
-    await axios.delete(`/api/orders/delete/${deleteOrderId}`);
+    await axios.delete(`/api/orders/${deleteOrderId}`);
     setIsDeleteLoading(false);
 
     await getOrders();

@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import BookModel from "@/model/BookModel";
 import { mongooseConnect } from "@/lib/connectDb";
 
@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export async function PATCH(
   req: NextRequest,
   context: { params: Promise<{ id: string }> },
-): Promise<Response> {
+): Promise<NextResponse> {
   await mongooseConnect();
 
   const { id } = await context.params;
@@ -22,42 +22,42 @@ export async function PATCH(
     );
 
     if (!updatedBook) {
-      return Response.json(
+      return NextResponse.json(
         { message: `No book with id ${id} found` },
         { status: 404 },
       );
     }
 
-    return Response.json(updatedBook, { status: 200 });
+    return NextResponse.json(updatedBook, { status: 200 });
   } catch (error) {
     const message =
       error instanceof Error
         ? `Error occurred updating a book: ${error.message}`
         : "Error occurred updating a book";
 
-    return Response.json({ message }, { status: 500 });
+    return NextResponse.json({ message }, { status: 500 });
   }
 }
 
 export async function DELETE(
   _req: NextRequest,
   context: { params: Promise<{ id: string }> },
-): Promise<Response> {
+): Promise<NextResponse> {
   await mongooseConnect();
 
   const { id } = await context.params;
 
   try {
-    const deleteBook = await BookModel.findByIdAndDelete(id);
+    const deletedBook = await BookModel.findByIdAndDelete(id);
 
-    if (!deleteBook) {
-      return Response.json(
+    if (!deletedBook) {
+      return NextResponse.json(
         { message: `No book with id ${id} found` },
         { status: 404 },
       );
     }
 
-    return Response.json(
+    return NextResponse.json(
       { message: `Book with id ${id} deleted successfully` },
       { status: 200 },
     );
@@ -67,6 +67,6 @@ export async function DELETE(
         ? `Error occurred deleting book: ${error.message}`
         : "Error occurred deleting book";
 
-    return Response.json({ message }, { status: 500 });
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

@@ -3,6 +3,7 @@ import { mongooseConnect } from "@/lib/connectDb";
 import OrderModel, { OrderDocument } from "@/model/OrderModel";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+
 export const dynamic = "force-dynamic";
 
 export async function GET(_req: NextRequest): Promise<Response> {
