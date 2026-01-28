@@ -12,7 +12,7 @@ type RouteParams = {
 
 export async function PATCH(
   req: NextRequest,
-  { params }: RouteParams,
+  { params }: { params: Promise<{ id: string }> },
 ): Promise<Response> {
   await mongooseConnect();
 

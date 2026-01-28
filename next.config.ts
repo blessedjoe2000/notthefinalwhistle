@@ -1,9 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: ["4lel1dxsig.ufs.sh"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "4lel1dxsig.ufs.sh",
+        pathname: "/**",
+      },
+    ],
   },
 };
 
