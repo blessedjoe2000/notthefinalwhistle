@@ -52,7 +52,7 @@ const Book: React.FC = () => {
     return (
       <div>
         <Stack spacing={5}>
-          <div className="flex flex-wrap gap-5 px-5 justify-center">
+          <div className="flex flex-wrap gap-5 px-5 justify-center py-10">
             <Skeleton variant="rounded" width={350} height={550} />
             <Skeleton variant="rounded" width={350} height={550} />
             <Skeleton variant="rounded" width={350} height={550} />

@@ -30,6 +30,12 @@ interface LineItem {
   };
 }
 
+interface OrderProduct {
+  title: string;
+  imageUrl?: string;
+  quantity?: number;
+}
+
 interface Order {
   _id: string;
   name: string;
@@ -37,6 +43,7 @@ interface Order {
   phone: string;
   address: Address;
   line_items: LineItem[];
+  orderProducts: OrderProduct[];
   createdAt: string;
   paid: boolean;
   status: string;
@@ -263,8 +270,11 @@ const Order: React.FC = () => {
 
                   {/* Books */}
                   <div className="border-b-2 border-[#00296b]/30 sm:border-none ">
-                    {order.orderProducts.map((book, index) => (
-                      <div key={index} className="flex items-center gap-1">
+                    {order.orderProducts.map((book) => (
+                      <div
+                        key={`${order._id}-${book.title}`}
+                        className="flex items-center gap-1"
+                      >
                         <div className="my-1">{book.title}</div>
                       </div>
                     ))}

@@ -161,7 +161,7 @@ export default function Cart() {
                 <div key={book?._id}>
                   <div className="flex gap-2 sm:p-5 p-2">
                     <Image
-                      src={book?.imageUrl}
+                      src={book.imageUrl ?? "/placeholder-book.png"}
                       alt={book?.title}
                       width={120}
                       height={150}
