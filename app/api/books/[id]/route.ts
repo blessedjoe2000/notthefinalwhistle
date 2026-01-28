@@ -4,19 +4,13 @@ import { mongooseConnect } from "@/lib/connectDb";
 
 export const dynamic = "force-dynamic";
 
-type RouteParams = {
-  params: {
-    id: string;
-  };
-};
-
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  context: { params: Promise<{ id: string }> },
 ): Promise<Response> {
   await mongooseConnect();
 
-  const { id } = await params;
+  const { id } = await context.params;
 
   try {
     const updateBook = await req.json();
@@ -47,11 +41,11 @@ export async function PATCH(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: RouteParams,
+  context: { params: Promise<{ id: string }> },
 ): Promise<Response> {
   await mongooseConnect();
 
-  const { id } = await params;
+  const { id } = await context.params;
 
   try {
     const deleteBook = await BookModel.findByIdAndDelete(id);
@@ -64,7 +58,7 @@ export async function DELETE(
     }
 
     return Response.json(
-      { message: `Book with id ${id} delete successfully` },
+      { message: `Book with id ${id} deleted successfully` },
       { status: 200 },
     );
   } catch (error) {
