@@ -1,10 +1,10 @@
-import Book from "../../components/Book/Book";
+import BookParent from "@/components/BookParent/BookParent";
 
 export default function Home() {
   return (
     <div className="">
       <main className="">
-        <Book />
+        <BookParent />
       </main>
     </div>
   );

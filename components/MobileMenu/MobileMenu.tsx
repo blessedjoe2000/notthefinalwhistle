@@ -69,25 +69,20 @@ const MobileMenu = () => {
                     </SheetClose>
                   </Link>
                 </div>
-
-                <div>
-                  <Link href="/cart">
-                    <SheetClose className="flex items-center hover:text-[#faf0ca]! text-[#00296b] py-1 px-2 rounded-md bg-white!">
-                      <div className="relative">
-                        <div className="absolute font-bold text-lg bottom-5 left-3">
-                          <span>{cartBooks.length}</span>
-                        </div>
-                        <ShoppingCartOutlinedIcon fontSize="large" />
-                      </div>
-                    </SheetClose>
-                  </Link>
-                </div>
               </div>
             </div>
           </SheetContent>
         </Sheet>
       </div>
-      <div>
+      <div className="flex gap-5 items-center">
+        <Link href="/cart" className="hover:text-[#faf0ca]! text-white!">
+          <div className="relative">
+            <div className="absolute font-bold text-lg bottom-5 left-3">
+              <span className="">{cartBooks.length}</span>
+            </div>
+            <ShoppingCartOutlinedIcon fontSize="large" />
+          </div>
+        </Link>
         {isSignedIn ? (
           <UserButton />
         ) : (

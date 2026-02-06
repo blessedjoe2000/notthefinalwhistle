@@ -16,7 +16,7 @@ import { Loader2 } from "lucide-react";
 interface CartPageBook extends CartBook {
   _id: string;
   title: string;
-  imageUrl?: string;
+  images?: string[];
   price: number;
   newPrice?: number;
 }
@@ -161,7 +161,7 @@ export default function Cart() {
                 <div key={book?._id}>
                   <div className="flex gap-2 sm:p-5 p-2">
                     <Image
-                      src={book.imageUrl ?? "/placeholder-book.png"}
+                      src={book.images?.[0] ?? "/placeholder-book.png"}
                       alt={book?.title}
                       width={120}
                       height={150}
@@ -255,7 +255,7 @@ export default function Cart() {
               <div>
                 {!isSignedIn && (
                   <p className="text-sm pt-2 text-[#e71d36]">
-                    *login to continue*
+                    *Signin to checkout*
                   </p>
                 )}
               </div>
@@ -264,12 +264,14 @@ export default function Cart() {
                 disabled={!isSignedIn}
                 className="
    px-3 py-1 mt-2 rounded-md text-white text-center flex items-center gap-1
-    disabled:bg-slate-300
-    disabled:cursor-not-allowed
+    disabled:bg-slate-300!
+    disabled:cursor-not-allowed!
+    disabled: hover:text-white!
+  
   "
               >
                 {isLoading && <Loader2 className=" animate-spin" />}
-                Continue to payment
+                Checkout
               </button>
             </form>
           </div>

@@ -1,7 +1,7 @@
 import { Schema, model, models, Document } from "mongoose";
 
 export interface BookDocument extends Document {
-  imageUrl?: string;
+  images?: string[];
   title: string;
   price: number;
   newPrice?: number;
@@ -12,8 +12,8 @@ const BookSchema = new Schema<BookDocument>(
     title: {
       type: String,
     },
-    imageUrl: {
-      type: String,
+    images: {
+      type: [String],
     },
     price: {
       type: Number,

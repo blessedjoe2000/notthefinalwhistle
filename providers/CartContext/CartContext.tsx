@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 export interface CartBook {
   _id: string;
   title: string;
-  imageUrl?: string;
+  images?: string[];
   price: number;
   newPrice?: number;
 }
